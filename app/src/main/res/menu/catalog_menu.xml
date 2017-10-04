@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/mi_sort_rate"
+            android:title="@string/mi_sort_by_rate_string"
+            android:checked="true"/>
+        <item android:id="@+id/mi_sort_popularity"
+            android:title="@string/sort_by_popularity_string"/>
+    </group>
+</menu>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Another Popular Movies</string>
+    <string name="error_message">An error occurred and the content is missing.</string>
+    <string name="sort_by_rate">Sorted by: Top rate</string>
+    <string name="sort_by_popularity">Sorted by: Popularity</string>
+    <string name="mi_sort_by_rate_string">Sort by rate</string>
+    <string name="sort_by_popularity_string">Sort by popularity</string>
+    <string name="iv_movie_poster_description">Movie Poster</string>
 </resources>
