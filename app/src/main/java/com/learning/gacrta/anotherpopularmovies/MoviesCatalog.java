@@ -24,6 +24,7 @@ import java.net.URL;
 public class MoviesCatalog extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private RecyclerView mMoviesCatalog;
+    private MovieAdapter mMovieAdapter;
     private TextView mErrorTextView;
     private final String mKey = "";
     private final boolean SORT_BY_RATE = false;
@@ -38,7 +39,8 @@ public class MoviesCatalog extends AppCompatActivity {
         mProgressBar = findViewById(R.id.pb_fetching_movies);
         mMoviesCatalog = findViewById(R.id.ll_movies_catalog);
         mErrorTextView = findViewById(R.id.tv_error_message);
-        mMoviesCatalog = findViewById(R.id.ll_movies_catalog);
+
+        mMovieAdapter = new MovieAdapter();
 
         fetchMoviesByRate();
     }
@@ -104,6 +106,7 @@ public class MoviesCatalog extends AppCompatActivity {
             mProgressBar.setVisibility(View.INVISIBLE);
             if (mMovies != null) {
                 showMoviesCatalog();
+                mMovieAdapter.setMoviesData(mMovies);
             }
             else {
                 showErrorMessage();

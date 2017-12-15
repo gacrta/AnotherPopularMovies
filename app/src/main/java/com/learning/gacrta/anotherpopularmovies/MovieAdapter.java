@@ -8,21 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.learning.gacrta.anotherpopularmovies.utilities.Movie;
+
 /**
  * Created by gabrielc.almeida on 04/10/2017.
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private int mNumberOfItens;
+    private Movie[] mMovies;
 
-    public MovieAdapter(int numberOfItens) {
-        mNumberOfItens = numberOfItens;
+    public MovieAdapter() {
     }
 
     @Override
     public int getItemCount() {
-        return mNumberOfItens;
+        if (mMovies == null) {
+            return 0;
+        } return mMovies.length;
     }
 
     @Override
@@ -38,7 +41,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        //TODO bind method
+        holder.bind(position);
+    }
+
+    public void setMoviesData(Movie[] movies) {
+        mMovies = movies;
+        notifyDataSetChanged();
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder{
@@ -49,8 +57,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             mImageView = itemView.findViewById(R.id.iv_movie_poster);
         }
 
-        void bind(Drawable drawable) {
-            mImageView.setImageDrawable(drawable);
+        void bind(int position) {
+            // TODO
+            //mImageView.setImageDrawable(mMovies[position]);
         }
     }
 }
