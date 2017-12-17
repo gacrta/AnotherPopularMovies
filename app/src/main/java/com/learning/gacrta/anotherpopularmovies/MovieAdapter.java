@@ -1,12 +1,15 @@
 package com.learning.gacrta.anotherpopularmovies;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.learning.gacrta.anotherpopularmovies.utilities.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
 import com.learning.gacrta.anotherpopularmovies.utilities.Movie;
 
@@ -16,9 +19,17 @@ import com.learning.gacrta.anotherpopularmovies.utilities.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private Movie[] mMovies;
+    public interface MovieGridClickListener {
+        void onMovieGridClick(int clickedMovieIndex);
+    }
 
-    public MovieAdapter() {
+    private Movie[] mMovies;
+    private final String TAG;
+    private MovieGridClickListener mClickListener;
+
+    public MovieAdapter(MovieGridClickListener listener) {
+         TAG = this.toString();
+         mClickListener = listener;
     }
 
     @Override
@@ -35,31 +46,49 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         boolean shouldAttachImmediately = false;
 
         View view = inflater.inflate(R.layout.movie_grid_item, parent, shouldAttachImmediately);
-        MovieViewHolder viewHolder = new MovieViewHolder(view);
+        MovieViewHolder viewHolder = new MovieViewHolder(context, view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+        Log.d(TAG, "Binding movie " + Integer.toString(position));
         holder.bind(position);
     }
 
     public void setMoviesData(Movie[] movies) {
         mMovies = movies;
+        Log.d(TAG, Integer.toString(mMovies.length) + " movies added");
         notifyDataSetChanged();
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder{
-        ImageView mImageView;
+    public Movie getMovieData(int position){
+        return mMovies[position];
+    }
 
-        MovieViewHolder(View itemView){
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private ImageView mImageView;
+        private Context parentContext;
+
+        MovieViewHolder(Context context, View itemView){
             super(itemView);
             mImageView = itemView.findViewById(R.id.iv_movie_poster);
+            parentContext = context;
+            itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
-            // TODO
-            //mImageView.setImageDrawable(mMovies[position]);
+            Picasso.with(parentContext)
+                    .load(NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
+                            NetworkUtils.POSTER_SIZE).toString()).into(mImageView);
+            Log.d(TAG, "Fetching poster from " + NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
+                    NetworkUtils.POSTER_SIZE).toString());
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            mClickListener.onMovieGridClick(clickedPosition);
         }
     }
 }

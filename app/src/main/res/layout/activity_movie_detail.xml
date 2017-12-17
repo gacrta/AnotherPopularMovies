@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.learning.gacrta.anotherpopularmovies.MovieDetail">
+
+    <TextView
+        android:id="@+id/tv_error_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ll_movie_details"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/iv_movie_poster"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/tv_movie_title"
+            android:text="@string/tv_movie_title"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/iv_movie_poster"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/tv_movie_original_title"
+            android:text="@string/tv_original_movie_title"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_movie_title"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/tv_movie_original_title"
+            android:text="@string/tv_original_movie_title"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_movie_title"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+</FrameLayout>

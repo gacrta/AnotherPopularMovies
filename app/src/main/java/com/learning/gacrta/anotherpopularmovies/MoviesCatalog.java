@@ -1,13 +1,16 @@
 package com.learning.gacrta.anotherpopularmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +24,13 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MoviesCatalog extends AppCompatActivity {
+public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.MovieGridClickListener{
     private ProgressBar mProgressBar;
-    private RecyclerView mMoviesCatalog;
+    private LinearLayout mMoviesCatalog;
+    private RecyclerView mMoviesGrid;
     private MovieAdapter mMovieAdapter;
     private TextView mErrorTextView;
+    private TextView mSortInfoTextView;
     private final String mKey = "";
     private final boolean SORT_BY_RATE = false;
     private final boolean SORT_BY_POPULARITY = true;
@@ -36,11 +41,17 @@ public class MoviesCatalog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_catalog);
 
+        int mNumberOfColumns = 3;
+
         mProgressBar = findViewById(R.id.pb_fetching_movies);
         mMoviesCatalog = findViewById(R.id.ll_movies_catalog);
+        mMoviesGrid = findViewById(R.id.rv_movies_grid);
         mErrorTextView = findViewById(R.id.tv_error_message);
+        mSortInfoTextView = findViewById(R.id.tv_display_sort_type);
 
-        mMovieAdapter = new MovieAdapter();
+        mMoviesGrid.setLayoutManager(new GridLayoutManager(this, mNumberOfColumns));
+        mMovieAdapter = new MovieAdapter(this);
+        mMoviesGrid.setAdapter(mMovieAdapter);
 
         fetchMoviesByRate();
     }
@@ -93,7 +104,7 @@ public class MoviesCatalog extends AppCompatActivity {
             Movie[] moviesFetched = null;
             if (httpResponse != null) {
                 try {
-                    moviesFetched = JsonMovieParser.getMoviesStringsFromJson(getApplicationContext(), httpResponse);
+                    moviesFetched = JsonMovieParser.getMoviesStringsFromJson(httpResponse);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -105,6 +116,12 @@ public class MoviesCatalog extends AppCompatActivity {
         protected void onPostExecute(Movie[] mMovies) {
             mProgressBar.setVisibility(View.INVISIBLE);
             if (mMovies != null) {
+                if (SORT_BY) {
+                    mSortInfoTextView.setText(R.string.sort_by_popularity);
+                }
+                else {
+                    mSortInfoTextView.setText(R.string.sort_by_rate);
+                }
                 showMoviesCatalog();
                 mMovieAdapter.setMoviesData(mMovies);
             }
@@ -129,10 +146,26 @@ public class MoviesCatalog extends AppCompatActivity {
         new MovieFetcher().execute(url);
         Toast.makeText(this, "Sort by Rate", Toast.LENGTH_SHORT).show();
     }
+
     private void fetchMoviesByPopularity() {
         URL url = NetworkUtils.buildUrlForPopularMovies(mKey);
         new MovieFetcher().execute(url);
-        Toast.makeText(this, "Sort by Pop", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sort by Popularity", Toast.LENGTH_SHORT).show();
     }
 
+    public void onMovieGridClick(int position){
+        Toast.makeText(this, "Movie " + Integer.toString(position) + " clicked.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MovieDetail.class);
+        Movie selectedMovie = mMovieAdapter.getMovieData(position);
+        String movieString = null;
+
+        try {
+            movieString = JsonMovieParser.getJsonStringFromMovie(selectedMovie);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        intent.putExtra(Intent.EXTRA_TEXT, movieString);
+        startActivity(intent);
+    }
 }

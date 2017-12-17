@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AnotherPopularMovies.iml" filepath="$PROJECT_DIR$/AnotherPopularMovies.iml" />
+      <module fileurl="file://C:\Users\gabri\AndroidStudioProjects\Udacity\Projects\AnotherPopularMovies\AnotherPopularMovies.iml" filepath="C:\Users\gabri\AndroidStudioProjects\Udacity\Projects\AnotherPopularMovies\AnotherPopularMovies.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\gabri\AndroidStudioProjects\Udacity\Projects\AnotherPopularMovies\app\app.iml" filepath="C:\Users\gabri\AndroidStudioProjects\Udacity\Projects\AnotherPopularMovies\app\app.iml" />
     </modules>
   </component>
 </project>

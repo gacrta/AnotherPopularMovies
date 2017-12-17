@@ -15,9 +15,12 @@ import java.util.Scanner;
 
 public class NetworkUtils {
     private static final String MOVIEDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    private static final String MOVIEDB_POSTER_URL = "http://image.tmdb.org/t/p/";
     private static final String SORT_BY_POPULARITY = "popular";
     private static final String SORT_BY_RATE = "top_rated";
     private static final String KEY_PARAM = "api_key";
+
+    public static final String POSTER_SIZE = "w185";
 
     public static URL buildUrlForPopularMovies(String key) {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
@@ -31,6 +34,14 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                 .appendPath(SORT_BY_RATE)
                 .appendQueryParameter(KEY_PARAM, key)
+                .build();
+        return getUrlFromUri(builtUri);
+    }
+
+    public static URL buildUrlForMoviePoster(String posterUrl, String size) {
+        Uri builtUri = Uri.parse(MOVIEDB_POSTER_URL).buildUpon()
+                .appendPath(size)
+                .appendPath(posterUrl.substring(1)) // removing '/' from path
                 .build();
         return getUrlFromUri(builtUri);
     }
