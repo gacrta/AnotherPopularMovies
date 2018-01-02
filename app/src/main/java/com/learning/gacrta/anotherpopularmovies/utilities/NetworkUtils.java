@@ -9,10 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-/**
- * Created by gabrielc.almeida on 24/08/2017.
- */
-
 public class NetworkUtils {
     private static final String MOVIEDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
     private static final String MOVIEDB_POSTER_URL = "http://image.tmdb.org/t/p/";
@@ -20,7 +16,8 @@ public class NetworkUtils {
     private static final String SORT_BY_RATE = "top_rated";
     private static final String KEY_PARAM = "api_key";
 
-    public static final String POSTER_SIZE = "w185";
+    public static final String THUMBNAIL_SIZE = "w185";
+    public static final String POSTER_SIZE = "w500";
 
     public static URL buildUrlForPopularMovies(String key) {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()

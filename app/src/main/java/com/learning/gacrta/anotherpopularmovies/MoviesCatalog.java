@@ -31,10 +31,12 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
     private MovieAdapter mMovieAdapter;
     private TextView mErrorTextView;
     private TextView mSortInfoTextView;
-    private final String mKey = "";
     private final boolean SORT_BY_RATE = false;
     private final boolean SORT_BY_POPULARITY = true;
     private boolean SORT_BY = SORT_BY_RATE;
+
+    // -- INSERT YOUR API KEY HERE --
+    private final String mKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            hideCatalogViews();
             mProgressBar.setVisibility(View.VISIBLE);
         }
 
@@ -141,20 +144,25 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         mMoviesCatalog.setVisibility(View.VISIBLE);
     }
 
+    private void hideCatalogViews() {
+        mMoviesCatalog.setVisibility(View.INVISIBLE);
+        mErrorTextView.setVisibility(View.INVISIBLE);
+    }
+
     private void fetchMoviesByRate() {
         URL url = NetworkUtils.buildUrlForTopRateMovies(mKey);
         new MovieFetcher().execute(url);
-        Toast.makeText(this, "Sort by Rate", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Sort by Rate", Toast.LENGTH_SHORT).show();
     }
 
     private void fetchMoviesByPopularity() {
         URL url = NetworkUtils.buildUrlForPopularMovies(mKey);
         new MovieFetcher().execute(url);
-        Toast.makeText(this, "Sort by Popularity", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Sort by Popularity", Toast.LENGTH_SHORT).show();
     }
 
     public void onMovieGridClick(int position){
-        Toast.makeText(this, "Movie " + Integer.toString(position) + " clicked.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Movie " + Integer.toString(position) + " clicked.", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MovieDetail.class);
         Movie selectedMovie = mMovieAdapter.getMovieData(position);
         String movieString = null;

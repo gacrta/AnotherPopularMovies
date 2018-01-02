@@ -13,10 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import com.learning.gacrta.anotherpopularmovies.utilities.Movie;
 
-/**
- * Created by gabrielc.almeida on 04/10/2017.
- */
-
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     public interface MovieGridClickListener {
@@ -25,7 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private Movie[] mMovies;
     private final String TAG;
-    private MovieGridClickListener mClickListener;
+    private final MovieGridClickListener mClickListener;
 
     public MovieAdapter(MovieGridClickListener listener) {
          TAG = this.toString();
@@ -46,8 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         boolean shouldAttachImmediately = false;
 
         View view = inflater.inflate(R.layout.movie_grid_item, parent, shouldAttachImmediately);
-        MovieViewHolder viewHolder = new MovieViewHolder(context, view);
-        return viewHolder;
+        return new MovieViewHolder(context, view);
     }
 
     @Override
@@ -68,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView mImageView;
-        private Context parentContext;
+        private final Context parentContext;
 
         MovieViewHolder(Context context, View itemView){
             super(itemView);
@@ -80,7 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         void bind(int position) {
             Picasso.with(parentContext)
                     .load(NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
-                            NetworkUtils.POSTER_SIZE).toString()).into(mImageView);
+                            NetworkUtils.THUMBNAIL_SIZE).toString()).into(mImageView);
             Log.d(TAG, "Fetching poster from " + NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
                     NetworkUtils.POSTER_SIZE).toString());
         }

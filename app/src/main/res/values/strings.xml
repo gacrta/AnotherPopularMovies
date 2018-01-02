@@ -6,4 +6,10 @@
     <string name="mi_sort_by_rate_string">Sort by rate</string>
     <string name="sort_by_popularity_string">Sort by popularity</string>
     <string name="iv_movie_poster_description">Movie Poster</string>
+    <string name="tv_movie_title">Title: </string>
+    <string name="tv_original_movie_title">Original Title: </string>
+    <string name="tv_movie_release_date">Release date: </string>
+    <string name="tv_movie_user_rate">User rate: </string>
+    <string name="tv_movie_overview">Overview: </string>
+    <string name="tv_error_detail_text">Sorry, an error occurred!</string>
 </resources>

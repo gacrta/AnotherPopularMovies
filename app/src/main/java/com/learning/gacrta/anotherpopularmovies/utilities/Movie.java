@@ -1,8 +1,6 @@
 package com.learning.gacrta.anotherpopularmovies.utilities;
 
-/**
- * Created by gabrielc.almeida on 24/08/2017.
- */
+import java.util.Locale;
 
 public class Movie {
 
@@ -26,6 +24,11 @@ public class Movie {
 
     public Double getVoteAverage() {
         return voteAverage;
+    }
+
+    public String getVoteAverageStr() {
+        String str = "%.2f";
+        return String.format(Locale.getDefault(), str, voteAverage);
     }
 
     public void setVoteAverage(Double voteAverage) {
