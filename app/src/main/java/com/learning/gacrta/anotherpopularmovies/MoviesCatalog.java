@@ -1,11 +1,14 @@
 package com.learning.gacrta.anotherpopularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.MovieGridClickListener{
     private ProgressBar mProgressBar;
@@ -31,9 +35,9 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
     private MovieAdapter mMovieAdapter;
     private TextView mErrorTextView;
     private TextView mSortInfoTextView;
-    private final boolean SORT_BY_RATE = false;
-    private final boolean SORT_BY_POPULARITY = true;
-    private boolean SORT_BY = SORT_BY_RATE;
+    private final boolean SORT_BY_RATE = true;
+    private final boolean SORT_BY_POPULARITY = false;
+    private String SORT_MODE = "SORT_MODE";
 
     // -- INSERT YOUR API KEY HERE --
     private final String mKey = "";
@@ -43,7 +47,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_catalog);
 
-        int mNumberOfColumns = 3;
+        int mNumberOfColumns = getNumberOfColumns();
 
         mProgressBar = findViewById(R.id.pb_fetching_movies);
         mMoviesCatalog = findViewById(R.id.ll_movies_catalog);
@@ -55,7 +59,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         mMovieAdapter = new MovieAdapter(this);
         mMoviesGrid.setAdapter(mMovieAdapter);
 
-        fetchMoviesByRate();
+        fetchMovies();
     }
 
     @Override
@@ -72,14 +76,14 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
                 if (!item.isChecked()) {
                     item.setChecked(true);
                     fetchMoviesByRate();
-                    SORT_BY = SORT_BY_RATE;
+                    setSortTypeToPreferences(SORT_BY_RATE);
                 }
                 return true;
             case R.id.mi_sort_popularity:
                 if (!item.isChecked()) {
                     item.setChecked(true);
                     fetchMoviesByPopularity();
-                    SORT_BY = SORT_BY_POPULARITY;
+                    setSortTypeToPreferences(SORT_BY_POPULARITY);
                 }
                 return true;
             default:
@@ -87,7 +91,15 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         }
     }
 
-    private class MovieFetcher extends AsyncTask<URL, Void, Movie[]> {
+    // method to evaluate best column number based on model display
+    private int getNumberOfColumns() {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int scalingFactor = 180;
+        return (int) (dpWidth / scalingFactor);
+    }
+
+    private class MovieFetcher extends AsyncTask<URL, Void, List<Movie>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -96,7 +108,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         }
 
         @Override
-        protected Movie[] doInBackground(URL ... urls) {
+        protected List<Movie> doInBackground(URL ... urls) {
             URL url = urls[0];
             String httpResponse = null;
             try {
@@ -104,7 +116,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Movie[] moviesFetched = null;
+            List<Movie> moviesFetched = null;
             if (httpResponse != null) {
                 try {
                     moviesFetched = JsonMovieParser.getMoviesStringsFromJson(httpResponse);
@@ -116,14 +128,15 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         }
 
         @Override
-        protected void onPostExecute(Movie[] mMovies) {
+        protected void onPostExecute(List<Movie> mMovies) {
             mProgressBar.setVisibility(View.INVISIBLE);
             if (mMovies != null) {
-                if (SORT_BY) {
-                    mSortInfoTextView.setText(R.string.sort_by_popularity);
+                boolean sortTye = getSortTypeFromPreferences();
+                if (sortTye) {
+                    mSortInfoTextView.setText(R.string.sort_by_rate);
                 }
                 else {
-                    mSortInfoTextView.setText(R.string.sort_by_rate);
+                    mSortInfoTextView.setText(R.string.sort_by_popularity);
                 }
                 showMoviesCatalog();
                 mMovieAdapter.setMoviesData(mMovies);
@@ -147,6 +160,28 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
     private void hideCatalogViews() {
         mMoviesCatalog.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.INVISIBLE);
+    }
+
+    private void setSortTypeToPreferences(boolean sortType) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(SORT_MODE, sortType);
+        editor.apply();
+    }
+
+    private boolean getSortTypeFromPreferences() {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(SORT_MODE, SORT_BY_RATE);
+    }
+
+    private void fetchMovies() {
+        boolean sortMode = getSortTypeFromPreferences();
+        if (sortMode) {
+            fetchMoviesByRate();
+        }
+        else {
+            fetchMoviesByPopularity();
+        }
     }
 
     private void fetchMoviesByRate() {

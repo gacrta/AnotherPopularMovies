@@ -51,7 +51,7 @@ public class MovieDetail extends AppCompatActivity {
             String receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
 
             try {
-                movieToShow = JsonMovieParser.getMoviesStringsFromJson(receivedText)[0];
+                movieToShow = JsonMovieParser.getMoviesStringsFromJson(receivedText).get(0);
                 showMovieInfo(movieToShow);
             } catch (JSONException e) {
                 displayErrorMessage();

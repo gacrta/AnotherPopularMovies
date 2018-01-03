@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JsonMovieParser {
     private static final String RESULTS = "results";
     private static final String TITLE = "title";
@@ -13,14 +16,13 @@ public class JsonMovieParser {
     private static final String OVERVIEW = "overview";
     private static final String POSTER_PATH = "poster_path";
 
-    public static Movie[] getMoviesStringsFromJson(String movieListJsonString)
+    public static List<Movie> getMoviesStringsFromJson(String movieListJsonString)
     throws JSONException{
-        Movie[] parsedMoviesData;
+        ArrayList<Movie> parsedMoviesData = new ArrayList<>();
         JSONObject movieListJson = new JSONObject(movieListJsonString);
 
         JSONArray movieArray = movieListJson.getJSONArray(RESULTS);
 
-        parsedMoviesData = new Movie[movieArray.length()];
         Movie currentMovie;
         JSONObject movieJsonObject;
 
@@ -33,7 +35,7 @@ public class JsonMovieParser {
             currentMovie.setReleaseDate(movieJsonObject.getString(RELEASE_DATE));
             currentMovie.setOverview(movieJsonObject.getString(OVERVIEW));
             currentMovie.setPosterPath(movieJsonObject.getString(POSTER_PATH));
-            parsedMoviesData[i] = currentMovie;
+            parsedMoviesData.add(currentMovie);
         }
         return parsedMoviesData;
     }

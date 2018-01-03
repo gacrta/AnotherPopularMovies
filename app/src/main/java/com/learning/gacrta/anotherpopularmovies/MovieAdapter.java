@@ -13,26 +13,28 @@ import com.squareup.picasso.Picasso;
 
 import com.learning.gacrta.anotherpopularmovies.utilities.Movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     public interface MovieGridClickListener {
         void onMovieGridClick(int clickedMovieIndex);
     }
 
-    private Movie[] mMovies;
+    private ArrayList<Movie> mMovies;
     private final String TAG;
     private final MovieGridClickListener mClickListener;
 
     public MovieAdapter(MovieGridClickListener listener) {
-         TAG = this.toString();
-         mClickListener = listener;
+        mMovies = new ArrayList<>();
+        TAG = this.toString();
+        mClickListener = listener;
     }
 
     @Override
     public int getItemCount() {
-        if (mMovies == null) {
-            return 0;
-        } return mMovies.length;
+        return (mMovies != null) ? mMovies.size() : 0;
     }
 
     @Override
@@ -51,14 +53,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.bind(position);
     }
 
-    public void setMoviesData(Movie[] movies) {
-        mMovies = movies;
-        Log.d(TAG, Integer.toString(mMovies.length) + " movies added");
+    public void setMoviesData(List<Movie> movies) {
+        mMovies.addAll(movies);
+        Log.d(TAG, Integer.toString(mMovies.size()) + " movies added");
         notifyDataSetChanged();
     }
 
     public Movie getMovieData(int position){
-        return mMovies[position];
+        return mMovies.get(position);
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -74,9 +76,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         void bind(int position) {
             Picasso.with(parentContext)
-                    .load(NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
+                    .load(NetworkUtils.buildUrlForMoviePoster(mMovies.get(position).getPosterPath(),
                             NetworkUtils.THUMBNAIL_SIZE).toString()).into(mImageView);
-            Log.d(TAG, "Fetching poster from " + NetworkUtils.buildUrlForMoviePoster(mMovies[position].getPosterPath(),
+            Log.d(TAG, "Fetching poster from " + NetworkUtils.buildUrlForMoviePoster(mMovies.get(position).getPosterPath(),
                     NetworkUtils.POSTER_SIZE).toString());
         }
 
