@@ -2,20 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="@dimen/dimen_regular_padding">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textSize="20sp"
+        android:padding="@dimen/dimen_regular_padding"
+        android:textSize="@dimen/dimen_error_message_text_size"
         android:visibility="invisible"
         android:text="@string/error_message"
         android:id="@+id/tv_error_message"/>
 
     <ProgressBar
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="@dimen/dimen_progress_bar_size"
+        android:layout_height="@dimen/dimen_progress_bar_size"
         android:id="@+id/pb_fetching_movies"
         android:visibility="invisible"
         android:layout_gravity="center"/>
@@ -30,8 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_display_sort_type"
-            android:padding="8dp"
-            android:textSize="18sp"/>
+            android:padding="@dimen/dimen_regular_padding"
+            android:textSize="@dimen/dimen_display_sort_type_text_size"/>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
