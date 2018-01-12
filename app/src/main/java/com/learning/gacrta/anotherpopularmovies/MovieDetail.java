@@ -18,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 
 public class MovieDetail extends AppCompatActivity {
-    private Movie movieToShow;
     private TextView mErrorDetail;
     private RelativeLayout mMovieDetail;
 
@@ -45,7 +44,7 @@ public class MovieDetail extends AppCompatActivity {
         mMoviePoster = findViewById(R.id.iv_movie_poster);
 
         Intent receivedIntent = getIntent();
-        movieToShow = null;
+        Movie movieToShow = null;
 
         if (receivedIntent.hasExtra(Intent.EXTRA_TEXT)) {
             String receivedText = receivedIntent.getStringExtra(Intent.EXTRA_TEXT);
@@ -89,4 +88,7 @@ public class MovieDetail extends AppCompatActivity {
         mMovieDetail.setVisibility(View.INVISIBLE);
         mErrorDetail.setVisibility(View.VISIBLE);
     }
+    // TODO 1 To fetch trailers you will want to make a request to the /movie/{id}/videos endpoint.
+    // TODO 2 To fetch reviews you will want to make a request to the /movie/{id}/reviews endpoint
+    // TODO 3 You should use an Intent to open a youtube link in either the native app or a web browser of choice.
 }

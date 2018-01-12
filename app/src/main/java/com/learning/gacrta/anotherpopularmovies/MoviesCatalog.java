@@ -37,6 +37,7 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
 
     // -- INSERT YOUR API KEY HERE --
     private final String mKey = "";
+    public final String MOVIEDB_KEY = "MOVIEDB_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +175,8 @@ public class MoviesCatalog extends AppCompatActivity implements MovieAdapter.Mov
         }
 
         intent.putExtra(Intent.EXTRA_TEXT, movieString);
+        // Pass MOVIEDB API key to MovieDetail
+        intent.putExtra(MOVIEDB_KEY, mKey);
         startActivity(intent);
     }
 }
