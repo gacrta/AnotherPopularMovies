@@ -65,6 +65,51 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/tv_movie_user_rating"
                 android:textSize="@dimen/dimen_movie_detail_text_size"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_movie_overview"
+                android:id="@+id/buttons_layout"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_get_reviews"
+                    android:text="@string/b_review"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_get_trailers"
+                    android:text="@string/b_trailers"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:orientation="vertical"
+                android:id="@+id/ll_show_reviews"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/buttons_layout">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dimen_movie_detail_text_size"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rv_review_or_trailer"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_nothing_to_display"
+                android:id="@+id/tv_display_no_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/buttons_layout"
+                android:visibility="invisible"
+                android:textSize="@dimen/dimen_movie_detail_text_size"/>
         </RelativeLayout>
 
     </FrameLayout>

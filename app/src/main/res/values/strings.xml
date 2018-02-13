@@ -12,4 +12,9 @@
     <string name="tv_movie_user_rate">User rate: </string>
     <string name="tv_movie_overview">Overview: </string>
     <string name="tv_error_detail_text">Sorry, an error occurred!</string>
+    <string name="tv_show_trailers">Displaying trailers:</string>
+    <string name="tv_show_reviews">Displaying reviews:</string>
+    <string name="tv_nothing_to_display">Oh, nothing to display!</string>
+    <string name="b_review">Reviews</string>
+    <string name="b_trailers">Trailers</string>
 </resources>
